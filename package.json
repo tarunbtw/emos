@@ -1,6 +1,6 @@
 {
   "name": "@tarunbtw/emos",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Drop-in inline image emojis. Any image, any framework.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
