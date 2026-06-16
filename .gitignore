@@ -2,5 +2,5 @@ dist/
 node_modules/
 *.log
 coverage/
-build-plan-v2.md
+build-plan-2.md
 context.md
