@@ -1,4 +1,5 @@
-export type EmojiMap = Record<string, string>
+export type EmojiSource = string | { src: string; size?: string }
+export type EmojiMap = Record<string, EmojiSource>
 
 export interface ParseOptions {
   size?: string           // default '1.2em'
@@ -7,7 +8,7 @@ export interface ParseOptions {
 }
 
 export interface EmojiTextProps extends ParseOptions {
-  emojis: EmojiMap
+  emojis?: EmojiMap
   children: string
   wrapperClassName?: string
 }

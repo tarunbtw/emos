@@ -30,4 +30,28 @@ describe('parse', () => {
     expect((result[0] as any).slug).toBe('fire')
     expect(result[1]).toBe(' boom')
   })
+
+  it('applies size to the node via size field', () => {
+    const result = parse(':fire:', emojis, { size: '2em' })
+    expect((result[0] as any).size).toBe('2em')
+  })
+
+  it('allows per-emoji size override', () => {
+    const map = { doge: '/doge.png', big: { src: '/big.png', size: '2em' } }
+    const result = parse(':doge: :big:', map, { size: '1.2em' })
+    expect((result[0] as any).size).toBe('1.2em')
+    expect((result[2] as any).size).toBe('2em')
+  })
+
+  it('resolves src from object entries', () => {
+    const map = { big: { src: '/big.png', size: '2em' } }
+    const result = parse(':big:', map)
+    expect((result[0] as any).src).toBe('/big.png')
+  })
+
+  it('object entry without size falls back to default size', () => {
+    const map = { logo: { src: '/logo.png' } }
+    const result = parse(':logo:', map, { size: '1.5em' })
+    expect((result[0] as any).size).toBe('1.5em')
+  })
 })

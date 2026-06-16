@@ -10,7 +10,9 @@ export function renderEmoji(text: string, emojis: EmojiMap, options?: ParseOptio
         src="${node.src}"
         alt="${node.alt}"
         class="emos-emoji${node.className ? ` ${node.className}` : ''}"
-        style="height:${h};width:auto;display:inline;vertical-align:-0.25em;margin:0 0.05em"
+        style="height:${h};width:${h};object-fit:contain;display:inline-block;vertical-align:-0.25em;margin:0 0.05em"
+        loading="lazy"
+        decoding="async"
         draggable="false"
       />`
     })
@@ -22,6 +24,8 @@ export function renderInto(
   emojis: EmojiMap,
   options?: ParseOptions
 ): void {
+  if (typeof document === 'undefined') return // SSR guard
+
   const el =
     typeof selector === 'string'
       ? document.querySelector(selector)
@@ -31,4 +35,10 @@ export function renderInto(
 
   const text = el.textContent ?? ''
   el.innerHTML = renderEmoji(text, emojis, options)
+
+  el.querySelectorAll<HTMLImageElement>('.emos-emoji').forEach((img) => {
+    img.addEventListener('error', () => {
+      img.replaceWith(document.createTextNode(img.alt))
+    })
+  })
 }

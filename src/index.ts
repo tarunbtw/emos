@@ -1,4 +1,5 @@
 export { EmojiText } from './EmojiText'
+export { EmojiProvider, useEmos } from './EmojiProvider'
 export { createParser } from './parser'
 export { renderEmoji, renderInto } from './vanilla'
-export type { EmojiMap, ParseOptions, EmojiTextProps } from './types'
+export type { EmojiMap, EmojiSource, ParseOptions, EmojiTextProps } from './types'

@@ -29,17 +29,27 @@ export function parse(
 
   for (const match of text.matchAll(EMOJI_RE)) {
     const slug = match[0].slice(1, -1)   // strip colons
-    const src = emojis[slug]
+    const entry = emojis[slug]
 
     // no mapping → keep as raw text
-    if (!src) continue
+    if (!entry) continue
+
+    const src = typeof entry === 'string' ? entry : entry.src
+    const entrySize = typeof entry === 'string' ? undefined : entry.size
 
     // text before this match
     if (match.index! > last) {
       nodes.push(text.slice(last, match.index))
     }
 
-    nodes.push({ type: 'img', slug, src, alt: alt(slug), size, className })
+    nodes.push({
+      type: 'img',
+      slug,
+      src,
+      alt: alt(slug),
+      size: entrySize ?? size,
+      className,
+    })
     last = match.index! + match[0].length
   }
 
